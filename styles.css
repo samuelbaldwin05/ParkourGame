@@ -1,0 +1,441 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    cursor: auto;
+    background: radial-gradient(ellipse at center, #1a1a2e 0%, #0f0f23 70%, #000000 100%);
+    font-family: 'Orbitron', monospace;
+    color: #00d4ff;
+}
+
+body.game-active {
+    cursor: none;
+}
+
+/* Animated starfield background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, #ffffff, transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 90px 40px, #00d4ff, transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 160px 30px, #ffffff, transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    animation: twinkle 4s linear infinite;
+    z-index: -1;
+    opacity: 0.8;
+}
+
+@keyframes twinkle {
+    from { transform: translateY(0); }
+    to { transform: translateY(-100px); }
+}
+
+.main-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: 
+        radial-gradient(ellipse at 20% 50%, rgba(0, 212, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(138, 43, 226, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at center, #0a0a1a 0%, #000000 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+    cursor: auto;
+}
+
+.menu-content {
+    text-align: center;
+    color: #00d4ff;
+    font-family: 'Orbitron', monospace;
+    position: relative;
+}
+
+.menu-content::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+    box-shadow: 0 0 20px #00d4ff;
+}
+
+.menu-content h1 {
+    font-size: 48px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 20px #00d4ff, 0 0 40px #00d4ff;
+    color: #ffffff;
+    font-weight: 900;
+    letter-spacing: 4px;
+}
+
+.menu-subtitle {
+    font-size: 18px;
+    color: #7fa8da;
+    margin-bottom: 40px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.level-selection h2 {
+    font-size: 24px;
+    margin-bottom: 30px;
+    color: #00d4ff;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.level-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 0, 0, 0.8) 100%);
+    border: 1px solid #2a3f5f;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 15px 0;
+    width: 600px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    position: relative;
+    overflow: hidden;
+}
+
+.level-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.level-item.unlocked {
+    border-color: #00d4ff;
+    box-shadow: inset 0 0 20px rgba(0, 212, 255, 0.1);
+}
+
+.level-item.unlocked:hover {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.2) 0%, rgba(0, 0, 0, 0.9) 100%);
+    border-color: #ffffff;
+    box-shadow: 
+        0 0 30px rgba(0, 212, 255, 0.5),
+        inset 0 0 30px rgba(0, 212, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.level-item.unlocked:hover::before {
+    left: 100%;
+}
+
+.level-item.locked {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: #ff3860;
+    background: linear-gradient(135deg, rgba(255, 56, 96, 0.1) 0%, rgba(0, 0, 0, 0.8) 100%);
+}
+
+.level-info {
+    text-align: left;
+}
+
+.level-name {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.level-difficulty {
+    font-size: 12px;
+    color: #ffaa00;
+    margin-bottom: 8px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.level-description {
+    font-size: 14px;
+    color: #7fa8da;
+    font-weight: 400;
+}
+
+.level-status {
+    font-size: 14px;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.level-status.unlocked {
+    background: linear-gradient(135deg, #00d4ff, #0099cc);
+    color: #000000;
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+}
+
+.level-status.locked {
+    background: linear-gradient(135deg, #ff3860, #cc1144);
+    color: #ffffff;
+}
+
+.completion-message {
+    cursor: auto !important;
+}
+
+.completion-message * {
+    cursor: auto !important;
+}
+
+#gameContainer {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+#gameCanvas {
+    display: block;
+    background: radial-gradient(ellipse at center, #1a1a2e 0%, #0f0f23 70%, #000000 100%);
+}
+
+.ui-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.crosshair {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
+}
+
+.crosshair::before,
+.crosshair::after {
+    content: '';
+    position: absolute;
+    background: #00d4ff;
+    box-shadow: 0 0 10px #00d4ff;
+}
+
+.crosshair::before {
+    width: 2px;
+    height: 8px;
+    top: 4px;
+    left: 7px;
+}
+
+.crosshair::after {
+    width: 8px;
+    height: 2px;
+    top: 7px;
+    left: 4px;
+}
+
+.hud {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: #00d4ff;
+    font-weight: 700;
+    font-family: 'Orbitron', monospace;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 212, 255, 0.1));
+    padding: 20px;
+    border: 1px solid #00d4ff;
+    border-radius: 8px;
+    pointer-events: none;
+    backdrop-filter: blur(10px);
+    box-shadow: 
+        0 0 20px rgba(0, 212, 255, 0.2),
+        inset 0 0 20px rgba(0, 212, 255, 0.05);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.controls-help {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: #7fa8da;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(42, 63, 95, 0.2));
+    padding: 20px;
+    border: 1px solid #2a3f5f;
+    border-radius: 8px;
+    font-family: 'Orbitron', monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    pointer-events: none;
+    backdrop-filter: blur(10px);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.completion-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 0, 0, 0.95));
+    color: #00d4ff;
+    padding: 40px;
+    border: 2px solid #00d4ff;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    font-family: 'Orbitron', monospace;
+    display: none;
+    pointer-events: all;
+    z-index: 2000;
+    backdrop-filter: blur(20px);
+    box-shadow: 
+        0 0 50px rgba(0, 212, 255, 0.5),
+        inset 0 0 30px rgba(0, 212, 255, 0.1);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.reset-btn {
+    margin: 15px 5px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 0, 0, 0.8));
+    color: #00d4ff;
+    border: 1px solid #00d4ff;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'Orbitron', monospace;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    backdrop-filter: blur(5px);
+}
+
+.reset-btn:hover {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.3), rgba(0, 0, 0, 0.9));
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.stats-panel {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    color: #7fa8da;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(42, 63, 95, 0.2));
+    padding: 20px;
+    border: 1px solid #2a3f5f;
+    border-radius: 8px;
+    font-family: 'Orbitron', monospace;
+    font-size: 12px;
+    backdrop-filter: blur(10px);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.game-message {
+    position: fixed;
+    bottom: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 0, 0, 0.9));
+    color: #00d4ff;
+    padding: 15px 30px;
+    border: 1px solid #00d4ff;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'Orbitron', monospace;
+    z-index: 1500;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.game-message.show {
+    opacity: 1;
+    animation: message-slide 0.5s ease;
+}
+
+@keyframes message-slide {
+    from { 
+        transform: translateX(-50%) translateY(20px);
+        opacity: 0;
+    }
+    to { 
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+}
+
+.game-message.checkpoint {
+    border-color: #00ff88;
+    color: #00ff88;
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+}
+
+.game-message.fall {
+    border-color: #ff3860;
+    color: #ff3860;
+    box-shadow: 0 0 20px rgba(255, 56, 96, 0.3);
+}
+
+/* Sci-fi loading animation for menu */
+.main-menu::after {
+    content: '';
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+    animation: scanning 2s linear infinite;
+}
+
+@keyframes scanning {
+    0% { opacity: 0.3; transform: translateX(-50%) scaleX(0.5); }
+    50% { opacity: 1; transform: translateX(-50%) scaleX(1); }
+    100% { opacity: 0.3; transform: translateX(-50%) scaleX(0.5); }
+}
